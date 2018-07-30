@@ -24,14 +24,12 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 @implementation UITextView (SRPlaceholder)
 
 + (void)load {
-    
     Method dealoc = class_getInstanceMethod(self.class, NSSelectorFromString(@"dealloc"));
     Method myDealloc = class_getInstanceMethod(self.class, @selector(myDealloc));
     method_exchangeImplementations(dealoc, myDealloc);
 }
 
 - (void)myDealloc {
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     UITextView *placeholderView = objc_getAssociatedObject(self, SRPlaceholderViewKey);
@@ -46,7 +44,6 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (UITextView *)placeholderView {
-    
     UITextView *placeholderView = objc_getAssociatedObject(self, SRPlaceholderViewKey);
     if (!placeholderView) {
         placeholderView = [[UITextView alloc] init];
@@ -74,12 +71,10 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (void)setPlaceholder:(NSString *)placeholder {
-    
     [self placeholderView].text = placeholder;
 }
 
 - (NSString *)placeholder {
-    
     if (self.isPlaceholderExist) {
         return [self placeholderView].text;
     }
@@ -87,7 +82,6 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (void)setPlaceholderColor:(UIColor *)placeholderColor {
-    
     if (self.isPlaceholderExist) {
         self.placeholderView.textColor = placeholderColor;
         objc_setAssociatedObject(self, SRPlaceholderColorKey, placeholderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -95,22 +89,18 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (UIColor *)placeholderColor {
-    
     return objc_getAssociatedObject(self, SRPlaceholderColorKey);
 }
 
 - (void)setMaxHeight:(CGFloat)maxHeight {
-    
     objc_setAssociatedObject(self, SRTextViewMaxHeightKey, [NSString stringWithFormat:@"%lf", maxHeight], OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (CGFloat)maxHeight {
-    
     return [objc_getAssociatedObject(self, SRTextViewMaxHeightKey) doubleValue];
 }
 
 - (void)setMinHeight:(CGFloat)minHeight {
-    
     CGRect frame = self.frame;
     frame.size.height = minHeight;
     self.frame = frame;
@@ -118,22 +108,18 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (CGFloat)minHeight {
-    
     return [objc_getAssociatedObject(self, SRTextViewMinHeightKey) doubleValue];
 }
 
 - (void)setLastHeight:(CGFloat)lastHeight {
-    
     objc_setAssociatedObject(self, SRTextViewLastHeightKey, [NSString stringWithFormat:@"%lf", lastHeight], OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (CGFloat)lastHeight {
-    
     return [objc_getAssociatedObject(self, SRTextViewLastHeightKey) doubleValue];
 }
 
 - (BOOL)isPlaceholderExist {
-    
     UITextView *placeholderView = objc_getAssociatedObject(self, SRPlaceholderViewKey);
     return placeholderView != nil;
 }
@@ -141,7 +127,6 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    
     [self refreshPlaceholderView];
     
     if ([keyPath isEqualToString:@"text"]) {
@@ -150,7 +135,6 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (void)refreshPlaceholderView {
-    
     UITextView *placeholderView = objc_getAssociatedObject(self, SRPlaceholderViewKey);
     if (placeholderView) {
         self.placeholderView.frame = self.bounds;
@@ -161,7 +145,6 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
 }
 
 - (void)textViewTextDidChange {
-    
     UITextView *placeholderView = objc_getAssociatedObject(self, SRPlaceholderViewKey);
     if (placeholderView) {
         self.placeholderView.hidden = (self.text && self.text.length > 0);

@@ -20,15 +20,16 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     UITextView *textView = [[UITextView alloc] init];
-    [self.view addSubview:textView];
-    textView.frame = CGRectMake(10, 20, self.view.frame.size.width - 20, 50);
+    textView.frame = CGRectMake(0, 0, self.view.frame.size.width - 50, 50);
+    textView.center = self.view.center;
     textView.layer.borderColor = [UIColor grayColor].CGColor;
     textView.layer.borderWidth = 1;
     textView.font = [UIFont systemFontOfSize:20];
     textView.placeholder = @"I am placeholder...";
     textView.placeholderColor = [UIColor grayColor];
-    textView.minHeight = 200;
+    textView.minHeight = 150;
     textView.maxHeight = 300;
+    [self.view addSubview:textView];
 }
 
 
