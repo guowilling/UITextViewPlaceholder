@@ -70,13 +70,20 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
     return placeholderView;
 }
 
+- (NSString *)placeholder {
+    if (self.isPlaceholderExist) {
+        return [self placeholderView].text;
+    }
+    return nil;
+}
+
 - (void)setPlaceholder:(NSString *)placeholder {
     [self placeholderView].text = placeholder;
 }
 
-- (NSString *)placeholder {
+- (UIColor *)placeholderColor {
     if (self.isPlaceholderExist) {
-        return [self placeholderView].text;
+        return objc_getAssociatedObject(self, SRPlaceholderColorKey);
     }
     return nil;
 }
@@ -88,16 +95,16 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
     }
 }
 
-- (UIColor *)placeholderColor {
-    return objc_getAssociatedObject(self, SRPlaceholderColorKey);
+- (CGFloat)maxHeight {
+    return [objc_getAssociatedObject(self, SRTextViewMaxHeightKey) doubleValue];
 }
 
 - (void)setMaxHeight:(CGFloat)maxHeight {
     objc_setAssociatedObject(self, SRTextViewMaxHeightKey, [NSString stringWithFormat:@"%lf", maxHeight], OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (CGFloat)maxHeight {
-    return [objc_getAssociatedObject(self, SRTextViewMaxHeightKey) doubleValue];
+- (CGFloat)minHeight {
+    return [objc_getAssociatedObject(self, SRTextViewMinHeightKey) doubleValue];
 }
 
 - (void)setMinHeight:(CGFloat)minHeight {
@@ -107,16 +114,13 @@ static const void * SRTextViewLastHeightKey = &SRTextViewLastHeightKey;
     objc_setAssociatedObject(self, SRTextViewMinHeightKey, [NSString stringWithFormat:@"%lf", minHeight], OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (CGFloat)minHeight {
-    return [objc_getAssociatedObject(self, SRTextViewMinHeightKey) doubleValue];
+- (CGFloat)lastHeight {
+    return [objc_getAssociatedObject(self, SRTextViewLastHeightKey) doubleValue];
 }
+
 
 - (void)setLastHeight:(CGFloat)lastHeight {
     objc_setAssociatedObject(self, SRTextViewLastHeightKey, [NSString stringWithFormat:@"%lf", lastHeight], OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (CGFloat)lastHeight {
-    return [objc_getAssociatedObject(self, SRTextViewLastHeightKey) doubleValue];
 }
 
 - (BOOL)isPlaceholderExist {
